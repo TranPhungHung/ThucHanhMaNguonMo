@@ -1,37 +1,17 @@
 import cv2
 import numpy as np
-import tkinter as tk
-from tkinter import filedialog
-from PIL import ImageTk, Image
+import matplotlib.pyplot as plt
 
-# Định nghĩa hàm tăng cường chất lượng ảnh
-def enhance_brightness(image_path):
-    image = cv2.imread(image_path)
-    enhanced_image = cv2.convertScaleAbs(image, alpha=1.2, beta=10)  # Thay đổi alpha và beta tùy ý
-    return enhanced_image
 
-# Xử lý sự kiện khi người dùng nhấn nút "Tăng cường sáng"
-def enhance_image():
-    file_path = filedialog.askopenfilename()
-    if file_path:
-        enhanced_image = enhance_brightness(file_path)
-        enhanced_image = cv2.cvtColor(enhanced_image, cv2.COLOR_BGR2RGB)
-        enhanced_image = Image.fromarray(enhanced_image)
-        enhanced_image = enhanced_image.resize((400, 400), Image.ANTIALIAS)
-        enhanced_image = ImageTk.PhotoImage(enhanced_image)
-        image_label.configure(image=enhanced_image)
-        image_label.image = enhanced_image
+image = cv2.imread('/content/anh1.jpg')
+enhanced_image = cv2.convertScaleAbs(image, alpha=1.2, beta=10)  # Thay đổi alpha và beta tùy ý
 
-# Tạo giao diện người dùng
-window = tk.Tk()
-window.title("Ứng dụng Tăng cường chất lượng ảnh thiếu sáng")
+# Tạo một figure với kích thước mới (width, height)
+plt.figure(figsize=(8, 8))
 
-# Tạo nút "Chọn ảnh"
-select_button = tk.Button(window, text="Chọn ảnh", command=enhance_image)
-select_button.pack(pady=10)
+plt.subplot(121),plt.imshow(image)
+plt.title('Original'),plt.xticks([]),plt.yticks([])
+plt.subplot(122),plt.imshow(enhanced_image)
+plt.title('Enhanced'),plt.xticks([]),plt.yticks([])
 
-# Tạo nhãn để hiển thị ảnh
-image_label = tk.Label(window)
-image_label.pack()
-
-window.mainloop()
+plt.show()
